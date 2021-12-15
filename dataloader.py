@@ -10,13 +10,19 @@ import urllib.request
 
 def download_ko_dataset(path: str):
     # download dataset
-    urllib.request.urlretrieve(path, filename="ChatBotData.csv")
+    urllib.request.urlretrieve(path, filename="kor_chatbot.csv")
     return None
 
 
 class ChatbotDataset(Dataset):
-    def __init__(self, path):
-        self.data = pd.read_csv("ko_chatbot.csv")
+    def __init__(self, path: str):
+        self.data = pd.read_csv(path)
+        self.tokenizer = get_kogpt2_tokenizer
+        self.data = []
+
+        # bos_token_id = list(self.tokenizer.bos_token_id)
+        # eos_token_id = list(self.tokenizer.eos_token_id)
+        # pad_token_id = list(self.tokenizer.pad_token_id)
 
     def __len__(self):
         return len(self.data["label"])
